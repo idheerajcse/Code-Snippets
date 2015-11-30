@@ -1,0 +1,113 @@
+ <script type="text/javascript">
+            $(document).ready(function () {
+                $("#popupWrapper").hide();
+                window.alert = function (str) {
+                    var my = str.split("\n").join("<br />");
+
+                    $("#popupErrorMessage").html(my);
+                    $("#popupWrapper").show();
+                }
+                $("#popupClose").click(function (event) {
+                    $("#popupWrapper").hide();
+                });
+                //alert("Error")
+            });
+			
+		
+	</script>
+
+
+
+
+<div id="popupWrapper" class="popupWrapper">
+		<div class="popupDialog">
+			<div class="popupHeader">
+				<img src="../Images/alert.png" alt="alert image" /> Missing Information
+			</div>
+			<div id="popupErrorMessage" class="popupContent">
+				This is a error Message
+			</div>
+			<a id="popupClose" href="#" class="popupClose">
+				Close
+			</a>
+		</div>
+	</div>
+
+
+
+
+
+
+
+
+		.popupWrapper
+		{
+			background: rgba(0,0,0,0.5);
+			position: fixed;
+			top: 0px;
+			left: 0px;
+			width: 100%;
+			height: 100%;
+			display: none;
+			z-index: 100000;
+		}
+		.popupDialog{
+			width:35%;
+			min-width: 300px;
+			height: auto;
+			position: absolute;
+			top: 50px;
+			left: 33%;
+			background: white;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			z-index: 100;
+			-webkit-box-shadow:0 0 5px 1px #666;
+			-ms-box-shadow:0 0 5px 1px #666;
+			-moz-box-shadow:0 0 5px 1px #666;
+			box-shadow:0 0 5px 1px #666;
+			border:2px solid #666;
+		}
+		.popupHeader{
+			text-align: center;
+			font-size: 28px;
+			color:  #e74e18;
+			font-family: Arial;
+			margin: 20px;
+			border-bottom: 1px solid #D7D7D7;
+		}
+		.popupHeader img
+		{
+		    width: auto;
+		    height: 28px;
+		    border: none;
+		    display: inline-block;
+		    position:relative;
+		    top: 4px;
+		    }
+		.popupContent{
+			font-family: Arial;
+			margin: 20px;
+			font-size: 14px;
+			color: #666;
+		}
+		a.popupClose{
+			width: 80px;
+			margin: 0 auto;
+			margin-bottom: 10px;
+			display: block;
+			padding: 8px;
+			font-family: 'Segoe UI';
+			background: #868f92;
+			color: #fff;
+			font-size: 13px;
+			text-align: center;
+			text-decoration: none;
+			border: 1px solid #666;
+		}
+		a.popupClose:hover{
+			margin: 0 auto;
+			margin-bottom: 10px;
+			background: #e74e18;
+		}
