@@ -1,0 +1,131 @@
+http://www.aspdotnet-suresh.com/2012/07/create-controls-dynamically-in-aspnet.html
+Description: 
+
+In previous posts I explained how to create controls dynamically in asp.net and many articles relating to Asp.net, JQuery, and SQL etc. Now I will explain how to handle dynamically created controls click events in asp.net for that first we need to write the following code in your aspx page
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+<title>Create controls dynamically in asp.net and handle button click events</title>
+</head>
+<body>
+<form id="form2" runat="server">
+<div>
+<asp:Panel ID="pnlInfo" runat="server">
+</asp:Panel>
+</div>
+</form>
+</body>
+</html>
+After completion of aspx page design add the following namespaces in code behind
+
+C# code
+
+
+using System;
+using System.Web.UI.WebControls;
+After add namespaces write the following code in code behind like as shown below
+
+
+protected void Page_Load(object sender, EventArgs e)
+{
+Table tbldynamic = new Table();
+TableCell tc=new TableCell();
+TableCell tc1=new TableCell();
+TableRow tr = new TableRow();
+Label lblName =new Label();
+lblName.ID = "lblName";
+lblName.Text = "UserName:";
+tc.Controls.Add(lblName);
+TextBox txtName=new TextBox();
+txtName.ID = "txtName";
+tc1.Controls.Add(txtName);
+tr.Cells.Add(tc);
+tr.Cells.Add(tc1);
+tbldynamic.Rows.Add(tr);
+tc=new TableCell();
+tc1=new TableCell();
+tr=new TableRow();
+Label lblEmail = new Label();
+lblEmail.ID = "lblEmail";
+lblEmail.Text = "Email:";
+tc.Controls.Add(lblEmail);
+TextBox txtEmail = new TextBox();
+txtEmail.ID = "txtEmail";
+tc1.Controls.Add(txtEmail);
+tr.Cells.Add(tc);
+tr.Cells.Add(tc1);
+tbldynamic.Rows.Add(tr);
+tc = new TableCell();
+tc1 = new TableCell();
+tr = new TableRow();
+Button btnSubmit = new Button();
+btnSubmit.ID = "btnSubmit";
+btnSubmit.Text = "Submit";
+btnSubmit.Click += new System.EventHandler(btnSubmit_click);
+tc1.Controls.Add(btnSubmit);
+tr.Cells.Add(tc);
+tr.Cells.Add(tc1);
+tbldynamic.Rows.Add(tr);
+pnlInfo.Controls.Add(tbldynamic);
+}
+// Dynamic button click event
+protected void btnSubmit_click(object sender, EventArgs e)
+{
+TextBox txtUserName = (TextBox)pnlInfo.FindControl("txtName");
+TextBox txtEmail = (TextBox)pnlInfo.FindControl("txtEmail");
+Response.Write("UserName: "+txtUserName.Text+"; "+"Email: "+txtEmail.Text);
+}
+VB.NET Code
+
+Imports System.Web.UI.WebControls
+Partial Class Default2
+Inherits System.Web.UI.Page
+Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs) Handles Me.Load
+Dim tbldynamic As New Table()
+Dim tc As New TableCell()
+Dim tc1 As New TableCell()
+Dim tr As New TableRow()
+Dim lblName As New Label()
+lblName.ID = "lblName"
+lblName.Text = "UserName:"
+tc.Controls.Add(lblName)
+Dim txtName As New TextBox()
+txtName.ID = "txtName"
+tc1.Controls.Add(txtName)
+tr.Cells.Add(tc)
+tr.Cells.Add(tc1)
+tbldynamic.Rows.Add(tr)
+tc = New TableCell()
+tc1 = New TableCell()
+tr = New TableRow()
+Dim lblEmail As New Label()
+lblEmail.ID = "lblEmail"
+lblEmail.Text = "Email:"
+tc.Controls.Add(lblEmail)
+Dim txtEmail As New TextBox()
+txtEmail.ID = "txtEmail"
+tc1.Controls.Add(txtEmail)
+tr.Cells.Add(tc)
+tr.Cells.Add(tc1)
+tbldynamic.Rows.Add(tr)
+tc = New TableCell()
+tc1 = New TableCell()
+tr = New TableRow()
+Dim btnSubmit As New Button()
+btnSubmit.ID = "btnSubmit"
+btnSubmit.Text = "Submit"
+AddHandler btnSubmit.Click, AddressOf btnSubmit_click
+tc1.Controls.Add(btnSubmit)
+tr.Cells.Add(tc)
+tr.Cells.Add(tc1)
+tbldynamic.Rows.Add(tr)
+pnlInfo.Controls.Add(tbldynamic)
+End Sub
+' Dynamic button click event
+Protected Sub btnSubmit_click(ByVal sender As Object, ByVal e As EventArgs)
+Dim txtUserName As TextBox = DirectCast(pnlInfo.FindControl("txtName"), TextBox)
+Dim txtEmail As TextBox = DirectCast(pnlInfo.FindControl("txtEmail"), TextBox)
+Response.Write(("UserName: " + txtUserName.Text & "; " & "Email: ") + txtEmail.Text)
+End Sub
+End Class
