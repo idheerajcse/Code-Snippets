@@ -1,0 +1,49 @@
+USE TRANSPORT
+CREATE TABLE MasterSlipEntry(SlNo int identity(1,1), BranchId varchar(100) not null, NoofSlip varchar(100) not null, SLipAmount money not null, SlipFrom int not null, slipTo int not null, SLipTotalAmount money not null, SlipIssuedDate date not null, primary key(BranchId,SLipAmount) )
+
+INSERT INTO MasterSlipEntry values('Chgr1703', 100, 50,1, 100, 5000, '12/12/12')
+
+
+
+
+USE TRANSPORT
+CREATE TABLE MasterSlipEntry(SlNo int identity(1,1), BranchId varchar(100) not null, NoofSlip varchar(100) not null, SLipAmount money not null, SlipFrom int not null, slipTo int not null, SLipTotalAmount money not null, SlipIssuedDate date not null, primary key(BranchId,SLipAmount) )
+
+INSERT INTO MasterSlipEntry values('Chgr1703', 100, 50,1, 100, 5000, '12/12/12') 
+create procedure sp_InsertSLipMaster @BranchId varchar(100), @NofoSlip varchar(100), @SLipAmount money, @SlipFrom int, @SlipTo  int , @slipTotalAmount money, @slipIssuedDate date
+as 
+begin
+Insert into MasterSlipEntry values(@BranchId,@NofoSlip,@SLipAmount,@SlipFrom,@SlipTo,@slipTotalAmount,@slipIssuedDate);
+end
+select * from MasterSlipEntry 
+
+
+
+USE TRANSPORT
+CREATE TABLE MasterSlipEntry(SlNo int identity(1,1), SlipBundleId int Primary key, BranchId varchar(100) not null, NoofSlip varchar(100) not null, SLipAmount money not null, SlipFrom int not null, slipTo int not null, SLipTotalAmount money not null, SlipIssuedDate date not null, ActiveIncativeSlipBundle bit not null )
+
+INSERT INTO MasterSlipEntry values('Chgr1703', 100, 50,1, 100, 5000, '12/12/12') 
+Alter procedure sp_InsertSLipMaster @SlipBundleId int, @BranchId varchar(100), @NofoSlip varchar(100), @SLipAmount money, @SlipFrom int, @SlipTo  int , @slipTotalAmount money, @slipIssuedDate date,@ActiveIncativeSlipBundle bit
+as 
+begin
+Insert into MasterSlipEntry values(@SlipBundleId,@BranchId,@NofoSlip,@SLipAmount,@SlipFrom,@SlipTo,@slipTotalAmount,@slipIssuedDate,@ActiveIncativeSlipBundle);
+end
+select * from MasterSlipEntry 
+use Transport
+drop table MasterSlipEntry
+select isnull( max(SlipBundleId),1001) + 1 from MasterSlipEntry
+Select * from MasterSlipEntry where ActiveIncativeSlipBundle='false'
+sp_InsertSLipMaster 1001,'Chgr1703',100,50,1,100,5000,'12/12/12',false
+
+Select * from MasterSlipEntry where BranchId='Chgr1703' And SLipAmount='50.0000' And ActiveIncativeSlipBundle='False'
+
+---------------------------------------------
+create table MasterSlipreturnEntry(SlNo int primary key not null identity(1,1), SlipNumber int not null, BranchId varchar(100) not null, VechileNumber varchar(30) not null, EntryDate date not null, SlipCancel bit, Remarks varchar(1000),SlipBundleId int not null foreign key references MasterSlipEntry(SlipBundleId))
+drop table MasterSlipreturnEntry
+insert into MasterSlipreturnEntry values(1,'BH1234','Kol404','12/12/12',1,'Its is Ok',1001)
+Select * from MasterSlipreturnEntry Where SlipBundleId='1002'
+select * from MasterSlipreturnEntry
+
+
+
+
