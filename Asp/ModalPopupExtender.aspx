@@ -91,3 +91,24 @@
     </form>
 </body>
 </html>
+
+-----------------------------------------------
+public partial class AddBranch : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+
+    }
+    protected void btnOk_Click(object sender, EventArgs e)
+    {
+        this.ModalPopupExtender1.Show();
+        lblOne.Text = "hi";
+        System.Threading.Thread.Sleep(10000);
+
+       
+    }
+    protected void BtnOPenPopup_Click(object sender, EventArgs e)
+    {
+        this.ModalPopupExtender1.Show();
+    }
+}
