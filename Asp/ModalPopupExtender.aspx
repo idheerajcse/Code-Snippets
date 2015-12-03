@@ -1,3 +1,5 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="AddBranch.aspx.cs" Inherits="AddBranch" %>
+
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -14,7 +16,7 @@
 }
 .pnlBackGround
 {
- position:fixed;
+    position:fixed;
     top:10%;
     left:10px;
     width:300px;
@@ -22,6 +24,7 @@
     text-align:center;
     background-color:White;
     border:solid 3px black;
+    z-index:20;
 }
     
     </style>
@@ -30,13 +33,27 @@
 <body>
     <form id="form1" runat="server">
     <div>
-    <asp:Button ID="btnOpen" runat="server" Text="Open" />
-         <asp:Panel  CssClass="pnlBackGround" ID="PanelAddBranch" BackColor="aqua" runat="server">
+    <asp:UpdateProgress ID="UpdateProgress1" runat="server">
+        <ProgressTemplate>
+            <div id="IMGDIV" align="center" valign="middle" runat="server" style="position: absolute;
+                left: 45%; top: 45%; visibility: visible; vertical-align: middle; z-index:10">
+                <asp:Image ID="Image1" runat="server" ImageUrl="~/Images/processing_icon.gif" Width="50"
+                    Height="50" />
+            </div>
+        </ProgressTemplate>
+    </asp:UpdateProgress>
+    <asp:UpdatePanel ID="Update1" runat="server">
+    <ContentTemplate>
+    <asp:Button ID="BtnOPenPopup" runat="server" Text="OpenPopup" 
+            onclick="BtnOPenPopup_Click" />
+             <asp:ModalPopupExtender BackgroundCssClass="modalBackground" BehaviorID="BehaviorModalSave"  ID="ModalPopupExtender1"  TargetControlID="btnOpen" DropShadow="true" OkControlID="btnCancel" PopupControlID="PanelAddBranch" runat="server"></asp:ModalPopupExtender>
+    <asp:Button ID="btnOpen" style="display:none;" runat="server" Text="Open" />
+         <asp:Panel  CssClass="pnlBackGround"  ID="PanelAddBranch" BackColor="aqua" runat="server">
             <table>
                 <tr>
                     <td>Branch Name</td>
                     <td><asp:TextBox ID="txtBranchName" runat="server"></asp:TextBox></td>
-                    <td></td>
+                    <td><asp:Label ID="lblOne" runat="server" ></asp:Label></td>
                 </tr>
                  <tr>
                     <td>Branch Head</td>
@@ -55,8 +72,8 @@
           <asp:ScriptManager ID="ScriptManager1" runat="server">
              </asp:ScriptManager>
           
-             <asp:ModalPopupExtender BackgroundCssClass="modalBackground"  ID="ModalPopupExtender1"  TargetControlID="btnOpen" DropShadow="true" OkControlID="btnCancel" PopupControlID="PanelAddBranch" runat="server"></asp:ModalPopupExtender> 
-        <ajaxToolkit:AnimationExtender  ID="AnimationExtender1" TargetControlID="btnOpen" runat="server">
+             
+        <%--<ajaxToolkit:AnimationExtender  ID="AnimationExtender1" TargetControlID="btnOpen" runat="server">
         <Animations>
                 <OnClick>
                     <Parallel AnimationTarget="PanelAddBranch" 
@@ -67,7 +84,9 @@
                 </OnClick>
         </Animations>
 
-        </ajaxToolkit:AnimationExtender>
+        </ajaxToolkit:AnimationExtender>--%>
+        </ContentTemplate>
+        </asp:UpdatePanel>
     </div>
     </form>
 </body>
