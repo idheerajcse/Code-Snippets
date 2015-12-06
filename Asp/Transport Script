@@ -45,5 +45,17 @@ Select * from MasterSlipreturnEntry Where SlipBundleId='1002'
 select * from MasterSlipreturnEntry
 
 
+Select * from MasterSlipEntry where SlipBundleId='1006'
+create table RahatkoshDetails (SlNo int identity(1,1), vechileNo varchar(100) primary key not null, AccidentDate date not null, CaseInchargeName varchar(100) not null, TravelCost money, FoodCost money,MobileBill money, AdministrativeCharge money, Remarks varchar(1000), otherCharge money,totalInchargeExpenditure money)
+Drop table RahatkoshDetails
+create procedure Sp_InsertRahatkoshDetails @vechileNo Varchar(100),@AccidentDate date,@CaseInchargeName varchar(100),@TravelCost money, @FoodCost money, @MobileBill money,@Administrative money,@Remarks varchar(1000),@otherCharges money,@totalInchargeExp money
+as 
+begin
+Insert Into RahatkoshDetails values(@vechileNo,@AccidentDate,@CaseInchargeName,@TravelCost,@FoodCost,@MobileBill,@Administrative,@Remarks,@otherCharges,@totalInchargeExp)
+end
+
+
+
+
 
 
