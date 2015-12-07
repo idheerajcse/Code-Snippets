@@ -1,0 +1,45 @@
+protected void Upload(object sender, EventArgs e)
+{
+    foreach (HttpPostedFile postedFile in FileUpload1.PostedFiles)
+    {
+        string filename = Path.GetFileName(postedFile.FileName);
+        string contentType = postedFile.ContentType;
+        using (Stream fs = postedFile.InputStream)
+        {
+            using (BinaryReader br = new BinaryReader(fs))
+            {
+                byte[] bytes = br.ReadBytes((Int32)fs.Length);
+                string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+                using (SqlConnection con = new SqlConnection(constr))
+                {
+                    string query = "insert into tblFiles values (@Name, @ContentType, @Data)";
+                    using (SqlCommand cmd = new SqlCommand(query))
+                    {
+                        cmd.Connection = con;
+                        cmd.Parameters.AddWithValue("@Name", filename);
+                        cmd.Parameters.AddWithValue("@ContentType", contentType);
+                        cmd.Parameters.AddWithValue("@Data", bytes);
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+            }
+        }
+    }
+    Response.Redirect(Request.Url.AbsoluteUri);
+}
+
+----------------------------------------------------------------------------------
+<asp:FileUpload ID="FileUpload1" runat="server" AllowMultiple="true" />
+<asp:Button ID="btnUpload" runat="server" Text="Upload" OnClick="Upload" />
+<hr />
+<asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="false">
+<Columns>
+    <asp:BoundField DataField="Name" HeaderText="File Name" />
+</Columns>
+</asp:GridView>
+--------------------------------------------------------------------------------
+<system.web>
+<httpRuntime executionTimeout="100000" maxRequestLength="214748364" />
+</system.web>
