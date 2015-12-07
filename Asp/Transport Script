@@ -55,6 +55,37 @@ Insert Into RahatkoshDetails values(@vechileNo,@AccidentDate,@CaseInchargeName,@
 end
 
 
+  Select * from MasterSlipEntry where SlipBundleId='1006'
+create table RahatkoshDetails (SlNo int identity(1,1), vechileNo varchar(100)  not null, AccidentDate date not null, CaseInchargeName varchar(100) not null, Primary key(vechileNo,AccidentDate))
+Drop table RahatkoshDetails
+Alter procedure Sp_InsertRahatkoshDetails @vechileNo Varchar(100),@AccidentDate date,@CaseInchargeName varchar(100)
+as 
+begin
+Insert Into RahatkoshDetails values(@vechileNo,@AccidentDate,@CaseInchargeName)
+end
+Select * from AccidentImages
+create table AccidentImages(slno int not null identity(1,1), Name varchar(100), contentType nvarchar(200),ImageData varbinary(Max), VechileNumber varchar(100),Accidentdate date, Foreign key(VechileNumber,Accidentdate) References RahatkoshDetails(vechileNo,AccidentDate))
+create table GhayalDetails(Slno int not null identity(1,1), Name varchar(100) not null, GhayalAddress varchar(1000), ContactNumber varchar(100),MedicineCost Money not null, BillNo varchar(100),HospitalName varchar(500) not null,VechileNumber varchar(100) not null,AccidentDate date, foreign key(VechileNumber,AccidentDate) References RahatkoshDetails(vechileNo,AccidentDate))
+Drop table GhayalDetails
+select * from RahatKoshDetails
+create procedure SP_InsertGhayals @Name Varchar(100), @GhayalAddress varchar(1000), @Contact Varchar(100), @MedecicniCost Money,@BillNo varchar(100),@HospitalName varchar(500), @VechileNumber varchar(100),@AccidentDate date
+as 
+begin
+Insert into GhayalDetails values(@Name,@GhayalAddress,@Contact,@MedecicniCost,@BillNo,@HospitalName,@VechileNumber,@AccidentDate) 
+end
+Select * from GhayalDetails Where VechileNumber='RH234' AND AccidentDate='2072-08-17'
+exec SP_InsertGhayals 'Dheeraj','Dhaiya','9090909090',2000,'1234','rrvind rte','A89086','2072-08-16'
+create table Hospital (Slno int identity(1,1), HospitalId varchar(100) primary Key, HospitalName varchar(100), HospitalCity varchar(100),HospitalState varchar(100))
+Drop table Hospital
+alter procedure Sp_HospitalInsert @HospitalId varchar(100), @HospitalName varchar(100), @HospitalCity varchar(100), @HospitalState varchar(100)
+as
+begin
+Insert into Hospital values(@HospitalId,@HospitalName,@HospitalCity,@HospitalState)
+end
+exec Sp_HospitalInsert 'RRSM101', 'RR Surgical Medical','Dhanbad','Jharkhand'
+select * from GhayalDetails
+
+
 
 
 
