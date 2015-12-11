@@ -84,6 +84,119 @@ Insert into Hospital values(@HospitalId,@HospitalName,@HospitalCity,@HospitalSta
 end
 exec Sp_HospitalInsert 'RRSM101', 'RR Surgical Medical','Dhanbad','Jharkhand'
 select * from GhayalDetails
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="HeadDepartmentEntry.aspx.cs" Inherits="HeadDepartmentEntry" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <style type="text/css">
+        body
+        {
+           font-family:Tahoma;
+           color:Gray;
+            
+            }
+            .container
+            {
+                width:400px;
+                margin:0 auto !important;
+                
+                
+                
+                
+                }
+                .alignment
+                {
+                   float:left;
+                   margin-bottom:3px;
+                    
+                    }
+                    .StyleText
+                    {
+                      
+                border: 1px solid black;
+                border-left:2px solid blue;
+           
+                      
+                 
+                        
+                        }
+    
+    </style>
+</head>
+<body >
+    <form id="form1" runat="server">
+    <div>
+        <div>
+            <center><h2> Head Department Data Entry</h2></center>
+            <div style="border:1px solid blue;width:500px;margin:0 auto; padding-top:20px;padding-bottom:20px;">
+            <div class="container"> 
+                <div style="width:150px; text-align:right;" class="alignment">First Name:</div>
+                <div class="alignment"><asp:TextBox ID="txtFirstName" CssClass="StyleText" runat="server" ></asp:TextBox></div>
+                <div style="clear:both"></div>
+            </div>
+             <div class="container"> 
+                <div style="width:150px; text-align:right;" class="alignment">Join Date:</div>
+                <div class="alignment"><asp:TextBox ID="txtJoinDate" runat="server" ></asp:TextBox></div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="container"> 
+                <div style="width:150px; text-align:right;" class="alignment">Permanent Address:</div>
+                <div class="alignment"><asp:TextBox ID="txtPermanentAdd" runat="server" ></asp:TextBox></div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="container"> 
+                <div style="width:150px; text-align:right;" class="alignment">Current Address:</div>
+                <div class="alignment"><asp:TextBox ID="txtCurrentAddress" runat="server" ></asp:TextBox></div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="container"> 
+                <div style="width:150px; text-align:right;" class="alignment">Image:</div>
+                <div class="alignment"><asp:FileUpload ID="FileUploadImage" runat="server" /></asp:TextBox></div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="container"> 
+                <div  style="width:150px; text-align:right;" class="alignment">Contact No:</div>
+                <div class="alignment"><asp:TextBox ID="TextBox5" runat="server" ></asp:TextBox></div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="container"> 
+                <div style="width:150px; text-align:right;" class="alignment">Goverment Id No:</div>
+                <div class="alignment">
+                    <asp:TextBox ID="txtGovtIdNo" runat="server" ></asp:TextBox>
+                </div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="container"> 
+                <div style="width:150px; text-align:right;" class="alignment">Id Image:</div>
+                <div class="alignment"><asp:FileUpload ID="FileUploadIdImage" runat="server" /></asp:TextBox></div>
+                <div style="clear:both"></div>
+            </div>
+            <div class="container"> 
+                <div style="width:150px; text-align:right;" class="alignment">Is Active:</div>
+                <div class="alignment"><asp:CheckBox ID="chkIsActive" runat="server" /></asp:TextBox></div>
+                <div style="clear:both"></div>
+            </div>
+            
+           <div class="container"> 
+                <div style="width:150px; text-align:right;" class="alignment">Reliving Date:</div>
+                <div class="alignment"><asp:TextBox ID="txtRelivingDate" runat="server" ></asp:TextBox></div>
+                <div style="clear:both"></div>
+            </div>
+             <div class="container"> 
+                <div style="width:150px; text-align:right;" class="alignment"> &nbsp; </div>
+                <div class="alignment"><center><asp:Button ID="btnSumit" runat="server" Text="Sumit" />&nbsp; &nbsp;<input type="reset" value="Reset" /></center></div> 
+                <div style="clear:both"></div>
+            </div>
+            </div>
+        </div>
+    </div>
+    </form>
+</body>
+</html>
+
 
 
 
