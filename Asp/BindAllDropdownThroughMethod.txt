@@ -1,0 +1,31 @@
+public void BindDllHospital(DropDownList ddl)
+    {
+        sqlQuery = "Select * from Hospital";
+        da = new SqlDataAdapter(sqlQuery, con);
+        DataSet ds = new DataSet();
+        da.Fill(ds, "HospitalIns");
+        if (ds.Tables["HospitalIns"].Rows.Count > 0)
+        {
+            ddl.DataSource = ds.Tables["HospitalIns"];
+
+            ddl.DataTextField = "HospitalName";
+            ddl.DataValueField = "HospitalId";
+            ddl.DataBind();
+            ddl.Items.Insert(0, new ListItem("Select Hospital", "0"));
+
+
+
+        }
+        
+        -----------------------
+        Call
+        
+         DropDownList ddlHospital = (DropDownList)e.Row.FindControl("ddlHospitalInsert");
+            if (ddlHospital != null)
+            {
+                BindDllHospital(ddlHospital);
+            
+                
+            }
+        
+        
