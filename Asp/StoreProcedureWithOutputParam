@@ -1,0 +1,18 @@
+create procedure Sp_Insert 
+
+@EmpName varchar(100),
+@EmpJob varchar(100),
+@EmpSalary int,
+@DeptId int,
+@Empid int out
+
+as 
+begin
+Insert into Employee values(@EmpName,@EmpJob,@EmpSalary,@DeptId)
+Select @Empid= Scope_Identity();
+end
+
+declare @EmpId int
+exec Sp_Insert 'Dheeraj','hr',1111,101, @EmpId out
+print 'Empid' +  cast(@EmpId as varchar(10))
+use testDb
