@@ -84,6 +84,35 @@ Insert into Hospital values(@HospitalId,@HospitalName,@HospitalCity,@HospitalSta
 end
 exec Sp_HospitalInsert 'RRSM101', 'RR Surgical Medical','Dhanbad','Jharkhand'
 select * from GhayalDetails
+
+
+Alter procedure Sp_VechileDetailsInsert
+@VechileNo varchar(100) ,
+@EngineNo varchar(200) ,
+@chasesNo varchar(100) ,
+@companyName varchar(500) ,
+@ModelNo varchar(500) ,
+@otherDetails varchar(1000),
+@RegistrationDate date
+as
+begin
+insert into VechileDetails values(@VechileNo,@EngineNo,@chasesNo,@companyName,@ModelNo,@otherDetails,@RegistrationDate)
+end
+
+
+
+
+create table VechileDetails(Slno int identity(1,1),VechileNo varchar(100) primary key not null,EngineNo varchar(200) not null,chasesNo varchar(100) not null,companyName varchar(500) not null,ModelNo varchar(500) not null,otherDetails varchar(1000),RegistrationDate date)
+create table OwnerDetails(Slno int identity(1,1) primary key,OwnerName varchar(100)  not null,OwnerAddress varchar(100) not null,OwnerImage varbinary(max),RealOwnerOne varchar(100) not null,RealOwnerTwo varchar(500) ,VechileNo varchar(100) foreign key references VechileDetails(VechileNo))
+create table DriverDetails(Slno int identity(1,1) ,DriverName varchar(100)  not null,DriverAddress varchar(1000) not null,DriverContactNo varchar(20),DriverImage varbinary(max),DriverLicenseNo varchar(100) not null primary key,DriverLicenseImage varbinary(max) ,GovermentIdNo varchar(100) not null,GovtIdImage varbinary(max) not null, VechileNumber varchar(100) foreign key references VechileDetails(VechileNo))
+create table GovermentDocDetails(Slno int identity(1,1) ,CheckPassStartDate Date not null, CheckPassEndDate Date not null,RoutePermitStartDate Date not null,RoutePermitEndDate Date not null,RoutePermitIssuedDist varchar(100) not null ,RoutePermitAreaTo varchar(100) not null,RoutePermitAreaFrom varchar(100) not null,InsuranceCompanyName varchar(200), InsuranceType varchar(100), InsuranceStartDate Date, InsuranceEndDate date, BillBookStartDate Date, BillBookEndDate date, VechileNo varchar(100) foreign key references VechileDetails(VechileNo))
+create table RouteDetails(Slno int identity(1,1) ,RouteFrom varchar(100)  not null,RouteTo varchar(1000) not null,EntryDateCurr Date,EndDate date, VechileNumber varchar(100) foreign key references VechileDetails(VechileNo))
+create table VechileRegdDetails(Slno int identity(1,1) primary key,RegistrationAmount Money not null,AmountReceived money not null,DueAmount  money not null,SlipNo int, VechileNumber varchar(100) foreign key references VechileDetails(VechileNo))
+
+drop table VechileDetails
+
+
+
 <%@ Page Language="C#" AutoEventWireup="true" CodeFile="HeadDepartmentEntry.aspx.cs" Inherits="HeadDepartmentEntry" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
