@@ -112,6 +112,138 @@ create table VechileRegdDetails(Slno int identity(1,1) primary key,RegistrationA
 drop table VechileDetails
 
 
+USE [Transport]
+GO
+/****** Object:  StoredProcedure [dbo].[Sp_VechileRegdDetailsInsert]    Script Date: 12/20/2015 9:14:11 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER procedure [dbo].[Sp_VechileRegdDetailsInsert]
+@RegistrationAmount Money,
+@AmountReceived money,
+@DueAmount  money ,
+@SlipNo int, 
+@VechileNumber varchar(100)
+as
+begin
+Insert into VechileRegdDetails values(@RegistrationAmount,@AmountReceived,@DueAmount,@SlipNo,@VechileNumber)
+end
+
+
+
+Alter procedure SP_MasterVechileRegistration 
+@VechileNo varchar(100) ,
+@EngineNo varchar(200) ,
+@chasesNo varchar(100) ,
+@companyName varchar(500) ,
+@ModelNo varchar(500) ,
+@VechileotherDetails varchar(1000),
+@RegistrationDate date,
+@OwnerName varchar(100),
+@OwnerAddress varchar(100),
+@OwnerImage varbinary(max),
+@RealOwnerOne varchar(100),
+@RealOwnerTwo varchar(500),
+@DriverName varchar(100)  ,
+@DriverAddress varchar(1000) ,
+@DriverContactNo varchar(20),
+@DriverImage varbinary(max),
+@DriverLicenseNo varchar(100),
+@DriverLicenseImage varbinary(max),
+@GovermentIdNo varchar(100) ,
+@GovtIdImage varbinary(max),
+@CheckPassStartDate Date ,
+ @CheckPassEndDate Date ,
+ @RoutePermitStartDate Date ,
+ @RoutePermitEndDate Date ,
+ @RoutePermitIssuedDist varchar(100) ,
+ @RoutePermitAreaTo varchar(100) ,
+ @RoutePermitAreaFrom varchar(100) ,
+ @InsuranceCompanyName varchar(200),
+  @InsuranceType varchar(100),
+   @InsuranceStartDate Date, 
+   @InsuranceEndDate date,
+    @BillBookStartDate Date,
+	 @BillBookEndDate date,
+	  @RouteFrom varchar(100) ,
+@RouteTo varchar(1000),
+@EntryDateCurr Date,
+@EndDate date,
+@OtherDetails varchar(500),
+@UpdateStatus bit 
+as
+begin
+insert into VechileRegistrationMaster values(@VechileNo,@EngineNo,@chasesNo,@companyName,@ModelNo,@VechileotherDetails,@RegistrationDate,@OwnerName,@OwnerAddress,@OwnerImage ,@RealOwnerOne ,@RealOwnerTwo,@DriverName  ,@DriverAddress  ,@DriverContactNo ,
+@DriverImage,
+@DriverLicenseNo ,
+@DriverLicenseImage ,
+@GovermentIdNo  ,
+@GovtIdImage ,@CheckPassStartDate  ,
+ @CheckPassEndDate  ,
+ @RoutePermitStartDate ,
+ @RoutePermitEndDate ,
+ @RoutePermitIssuedDist  ,
+ @RoutePermitAreaTo  ,
+ @RoutePermitAreaFrom  ,
+ @InsuranceCompanyName ,
+  @InsuranceType ,
+   @InsuranceStartDate , 
+   @InsuranceEndDate ,
+    @BillBookStartDate ,
+	 @BillBookEndDate ,@RouteFrom  ,
+@RouteTo ,
+@EntryDateCurr ,
+@EndDate ,
+@OtherDetails,@UpdateStatus)
+end
+
+create table VechileRegistrationMaster (slno int identity(1,1), VechileNo varchar(100) primary key not null  ,
+EngineNo varchar(200) not null ,
+chasesNo varchar(100) not null ,
+companyName varchar(500) ,
+ModelNo varchar(500) ,
+VechileotherDetails varchar(1000),
+RegistrationDate date,
+OwnerName varchar(100),
+OwnerAddress varchar(100),
+OwnerImage varbinary(max),
+RealOwnerOne varchar(100),
+RealOwnerTwo varchar(500),
+DriverName varchar(100)  ,
+DriverAddress varchar(1000) ,
+DriverContactNo varchar(20),
+DriverImage varbinary(max),
+DriverLicenseNo varchar(100),
+DriverLicenseImage varbinary(max),
+GovermentIdNo varchar(100) ,
+GovtIdImage varbinary(max),
+CheckPassStartDate Date ,
+ CheckPassEndDate Date ,
+ RoutePermitStartDate Date ,
+ RoutePermitEndDate Date ,
+ RoutePermitIssuedDist varchar(100) ,
+ RoutePermitAreaTo varchar(100) ,
+ RoutePermitAreaFrom varchar(100) ,
+ InsuranceCompanyName varchar(200),
+  InsuranceType varchar(100),
+   InsuranceStartDate Date, 
+   InsuranceEndDate date,
+    BillBookStartDate Date,
+	 BillBookEndDate date,
+	  RouteFrom varchar(100) ,
+RouteTo varchar(1000),
+EntryDateCurr Date,
+EndDate date,
+OtherDetails varchar(500),
+UpdateStatus bit)
+
+
+
+
+select * from VechileRegistrationMaster
+
+
 
 <%@ Page Language="C#" AutoEventWireup="true" CodeFile="HeadDepartmentEntry.aspx.cs" Inherits="HeadDepartmentEntry" %>
 
