@@ -1,0 +1,25 @@
+  if(fileUploadOwnerImage.HasFile)
+        {
+            string fileName = Path.GetFileName(fileUploadOwnerImage.FileName);
+            string serverFolder = Server.MapPath("ownerImages\\");
+            if (!Directory.Exists(serverFolder))
+            {
+                Directory.CreateDirectory(serverFolder);
+            }
+            string serverFilePath = serverFolder + fileName;
+            fileUploadOwnerImage.SaveAs(serverFilePath);
+
+           
+            using (Stream fs = fileUploadOwnerImage.PostedFile.InputStream)
+            {
+                using (BinaryReader br = new BinaryReader(fs))
+                {
+                    byte[] bytes = br.ReadBytes((Int32)fs.Length);
+
+
+
+                    cmd.Parameters.AddWithValue("@OwnerImage", bytes);
+                            
+                        }
+                    }
+                }
