@@ -242,6 +242,49 @@ UpdateStatus bit)
 
 
 select * from VechileRegistrationMaster
+create table VechileRegdDetails(Slno int identity(1,1) primary key,RegistrationAmount Money not null,AmountReceived money not null,DueAmount  money not null,SlipNo int, VechileNumber varchar(100) foreign key references VechileRegistrationMaster(VechileNo))
+drop table VechileRegdDetails
+
+
+create table HeadDeptEmloyeeDetails (slno int identity(1,1),FirstName varchar(100) not null, Joindate date not null,PermanentAddress varchar(500), CurrentAddress varchar(500), EmployeeImage varbinary(Max), contactNo varchar(20), GovtIdNo varchar(100) not null primary key, GovtIdImage varbinary(max), AccIsActive bit,RelivingDate date)
+create table StaffEmloyeeDetails (slno int identity(1,1),FirstName varchar(100) not null, Joindate date not null,PermanentAddress varchar(500), CurrentAddress varchar(500), contactNo varchar(20), Designation varchar(200) not null primary key, EmployeeType varchar(100),NpNo varchar(100), StaffImage varbinary(max),AgreementCopy varbinary(max), AccIsActive bit,RelivingDate date)
+Drop table HeadDeptEmloyeeDetails
+
+create procedure SP_HeadDeptEmloyeeDetails 
+@FirstName varchar(100),
+@JoinDate date,
+@PermanentAddress varchar(500),
+ @CurrentAddress varchar(500),
+  @EmployeeImage varbinary(Max),
+   @contactNo varchar(20),
+    @GovtIdNo varchar(100) ,
+	 @GovtIdImage varbinary(max),
+	  @AccIsActive bit,
+	  @RelivingDate date
+	  as
+	  begin
+	  Insert into HeadDeptEmloyeeDetails values(@FirstName,@JoinDate,@PermanentAddress,@CurrentAddress,@EmployeeImage,@contactNo,@GovtIdNo,@GovtIdImage,@AccIsActive,@RelivingDate)
+	  end
+
+	create procedure SP_StaffEmployeeDetails 
+@FirstName varchar(100),
+ @Joindate date,
+ @PermanentAddress varchar(500),
+  @CurrentAddress varchar(500),
+   @contactNo varchar(20),
+    @Designation varchar(200),
+	 @EmployeeType varchar(100),
+	 @NpNo varchar(100),
+	  @StaffImage varbinary(max),
+	  @AgreementCopy varbinary(max),
+	   @AccIsActive bit,
+	   @RelivingDate date
+	  as
+	  begin
+	  Insert into StaffEmloyeeDetails values(@FirstName,@Joindate,@PermanentAddress,@CurrentAddress,@contactNo,@Designation,@EmployeeType,@NpNo,@StaffImage,@AgreementCopy,@AccIsActive,@RelivingDate)
+	  end
+
+
 
 
 
