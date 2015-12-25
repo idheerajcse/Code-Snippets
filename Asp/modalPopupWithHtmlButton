@@ -1,0 +1,65 @@
+Open/Close or Show/Hide Ajax Modalpopupextender using JavaScript in asp.net
+By: Suresh Dasari Dec 24, 2011
+Categories: Ajax , AjaxModalPopupExtender , Asp.net , General , Javascript
+Introduction: 
+
+Here I will explain how to show/hide Ajax modalpopupextender using JavaScript in asp.net.
+
+Description: 
+
+In previous posts I explained some of the samples relating to Ajax modalpopupextender. During the time whenever I worked on to prepare samples for Ajax modalpopupextender I got requirement like close the modalpopupextender whenever I click on close icon for that more check this example Ajax Confirmation box. Generally in Ajax modalpopupextender we will set two properties TargetControlID and CancelControlID like
+
+Ex: TargetControlID="btnShowPopup" CancelControlID="btnNo"
+Here whenever we click on btnShowPopup button control modalpopupextender will show popup and when we click on btnNo button it will close the popup. Now I want to open popup and close popup whenever click on other button controls also in that case what we can do? By using JavaScript $find() function we can show or hide modalpopupextender easily. 
+
+JavaScript Functions will be like this
+
+<script language="javascript" type="text/javascript">
+//Function to Hide ModalPopUp
+function Hidepopup() {
+$find('ModalPopupExtender1').hide();
+}
+//Function to Show ModalPopUp
+function Showpopup() {
+$find('ModalPopupExtender1').show();
+}
+</script>
+Here 'ModalPopupExtender1' is our modalpopupextender id.
+
+Our Sample Page will be like this
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+<title>Untitled Page</title>
+<script language="javascript" type="text/javascript">
+//Function to Hide ModalPopUp
+function Hidepopup() {
+$find('ModalPopupExtender1').hide();
+}
+//Function to Show ModalPopUp
+function Showpopup() {
+$find('ModalPopupExtender1').show();
+}
+</script>
+</head>
+<body>
+<form id="form1" runat="server">
+<ajax:ToolkitScriptManager ID="ScriptManager1" runat="server">
+</ajax:ToolkitScriptManager>
+<asp:Button ID="btnShowPopup" runat="server" style="display:none" />
+<ajax:ModalPopupExtender ID="ModalPopupExtender1" runat="server" TargetControlID="btnShowPopup" PopupControlID="pnlpopup"
+CancelControlID="btnNo" BackgroundCssClass="modalBackground">
+</ajax:ModalPopupExtender>
+<asp:Panel ID="pnlpopup" runat="server" BackColor="White" Height="100px" Width="400px" style="display:none">
+<div>
+Confirm Box
+<a href = "javascript:void(0)" onclick = "closepopup()">Hide PopUp</a>
+<a href = "javascript:void(0)" onclick = "Showpopup()">Show PopUp</a>
+<asp:ImageButton ID="btnYes" OnClick="btnYes_Click" runat="server" ImageUrl="~/Images/btnyes.jpg"/>
+<asp:ImageButton ID="btnNo" runat="server" ImageUrl="~/Images/btnNo.jpg" />
+</div>
+</asp:Panel>
+</form>
+</body>
+</html>
