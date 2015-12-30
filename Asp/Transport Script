@@ -284,6 +284,39 @@ create procedure SP_HeadDeptEmloyeeDetails
 	  Insert into StaffEmloyeeDetails values(@FirstName,@Joindate,@PermanentAddress,@CurrentAddress,@contactNo,@Designation,@EmployeeType,@NpNo,@StaffImage,@AgreementCopy,@AccIsActive,@RelivingDate)
 	  end
 
+-------------------------------------------------------
+create procedure SP_UpdateVechileTransfer
+@VechileNumber varchar(100),
+@OwnerNumber varchar(100),
+@ContactNumber varchar(100)
+as
+begin
+update VechileRegistrationMaster set OwnerName=@OwnerNumber,OwnerContactNumber=@ContactNumber where VechileNo=@VechileNumber
+end
+
+create procedure SP_InsertVechileTransfer
+@TransferVechileNumber varchar(100),
+@OwnerName varchar(100),
+@RealOwnerNameone varchar(100),
+@RealOwnerNameoneTwo varchar(100),
+@NewOwnerName varchar(100),
+@ConatctNumber varchar(100),
+@TransferDate date,
+@TransferCharge money,
+@SlipNumber varchar(100)
+as
+begin
+Insert into VechileTransferDetails values(
+@TransferVechileNumber,
+@OwnerName,
+@RealOwnerNameone ,
+@RealOwnerNameoneTwo ,
+@NewOwnerName ,
+@ConatctNumber,
+@TransferDate ,
+@TransferCharge ,
+@SlipNumber)
+end
 
 
 
