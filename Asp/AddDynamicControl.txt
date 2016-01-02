@@ -129,3 +129,42 @@ Dim txtEmail As TextBox = DirectCast(pnlInfo.FindControl("txtEmail"), TextBox)
 Response.Write(("UserName: " + txtUserName.Text & "; " & "Email: ") + txtEmail.Text)
 End Sub
 End Class
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------
+2nd way
+protected void Page_Load(object sender, EventArgs e)
+{
+    if (!IsPostBack)
+    {
+        Table t = new Table();
+        TableRow tr;
+        TableCell tc;
+        Label lblSName;
+        for(int i = 0; i < 5; i++)
+        {
+            tr = new TableRow();
+            tr.BorderColor = System.Drawing.Color.Blue;
+            tc = new TableCell();
+            tc.ID = "TCNUM" + i.ToString();
+            lblSName = new Label();
+            lblSName.ID = "LBLSNAME" + i.ToString();
+            lblSName.Text = "StudentName" + i.ToString();
+            tc.Controls.Add(lblSName);
+            tr.Controls.Add(tc);
+            t.Rows.Add(tr);
+        }
+        this.Panel1.Controls.Add(t); 
+    }
+
+    for (int i = 0; i < 5; i++)
+    {
+        Label lblrno = (Label)Panel1.FindControl("LBLSNAME" + i.ToString());
+        Response.Write(lblrno.Text);
+    }
+}
