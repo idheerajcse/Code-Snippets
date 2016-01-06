@@ -1,0 +1,6 @@
+string RealFilePath = Server.MapPath("Images") + "\\users53.png";
+            FileStream fs = new FileStream(RealFilePath, FileMode.Open, FileAccess.Read);
+
+            BinaryReader br = new BinaryReader(fs);
+
+            byte[] b = br.ReadBytes((Int32)fs.Length);
