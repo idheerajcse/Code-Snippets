@@ -1,0 +1,157 @@
+http://www.codeproject.com/Articles/255684/Create-and-Consume-RESTFul-Service-in-NET-Framework
+
+//Working Service Model
+
+
+<?xml version="1.0"?>
+<configuration>
+  <connectionStrings>
+    <add name="ConStr" connectionString="Data Source=NETPEACH106\SQLEXPRESS; Initial Catalog=Employee; User Id=sa; Password=npadmin27!" />
+    
+  </connectionStrings>
+  <system.web>
+    <compilation debug="true" targetFramework="4.0" />
+  </system.web>
+  ----------------------------------------------------------------------------
+  <system.serviceModel>
+    <behaviors>
+      <serviceBehaviors>
+
+        <behavior>
+
+          <serviceMetadata httpGetEnabled="true"/>
+
+          <serviceDebug includeExceptionDetailInFaults="false"/>
+        </behavior>
+      </serviceBehaviors>
+      <endpointBehaviors>
+        <behavior>
+          <webHttp helpEnabled="True" />
+        </behavior>
+      </endpointBehaviors>
+    </behaviors>
+    <protocolMapping>
+      <add binding="webHttpBinding" scheme="http" />
+    </protocolMapping>
+    <serviceHostingEnvironment multipleSiteBindingsEnabled="true" />
+  </system.serviceModel>
+  ---------------------------------------------------------------------------------------------------
+ <system.webServer>
+    <modules runAllManagedModulesForAllRequests="true"/>
+  </system.webServer>
+  
+</configuration>
+
+//Interface
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.ServiceModel.Web;
+using System.Text;
+
+
+namespace WcfService1
+{
+    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService1" in both code and config file together.
+    [ServiceContract]
+    public interface IService1
+    {
+
+        [OperationContract]
+        [WebInvoke(Method="GET",RequestFormat=WebMessageFormat.Json,ResponseFormat=WebMessageFormat.Json,UriTemplate="/GetAllEmployees/")]
+        List<Employees> GetAllEmployees();
+        
+
+       
+    }
+
+
+   
+   
+}
+
+Employee Class
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Runtime.Serialization;
+using System.ServiceModel.Activation;
+
+namespace WcfService1
+{
+    [DataContract]
+    [AspNetCompatibilityRequirements(
+        RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
+    public class Employees
+    {
+        [DataMember]
+        public int Empid { get; set; }
+        [DataMember]
+        public string Empname { get; set; }
+        [DataMember]
+        public string EmpJob { get; set; }
+        [DataMember]
+        public int Deptid { get; set; }
+    }
+}
+
+
+----------------------------------------
+//Implementatin of Service Class
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.ServiceModel.Web;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+
+
+namespace WcfService1
+{
+    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in code, svc and config file together.
+    public class Service1 : IService1
+    {
+
+        public List<Employees> GetAllEmployees()
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConStr"].ConnectionString);
+            SqlDataAdapter da = new SqlDataAdapter("Select * from Employee", con);
+            DataSet ds = new DataSet();
+            da.Fill(ds, "temp");
+            if (ds.Tables["temp"].Rows.Count > 0)
+            {
+                List<Employees> empList = new List<Employees>();
+                Employees emp = new Employees();
+                foreach (DataRow dr in ds.Tables["temp"].Rows)
+                {
+
+                    emp.Empid = int.Parse(dr["EmpId"].ToString());
+                    emp.Empname = dr["EmpName"].ToString();
+                    emp.EmpJob = dr["EmpJob"].ToString();
+                    emp.Deptid = int.Parse(dr["Deptid"].ToString());
+                    empList.Add(emp);
+
+
+                }
+                return empList;
+
+
+            }
+            else
+            {
+                return null;
+
+            }
+        }
+    }
+}
+
+
+
