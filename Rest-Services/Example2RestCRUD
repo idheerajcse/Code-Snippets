@@ -1,0 +1,361 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.ServiceModel.Web;
+using System.Text;
+using System.ServiceModel.Activation;
+
+namespace WcfTest
+{
+    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService1" in both code and config file together.
+    [ServiceContract]
+    public interface IService1
+    {
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "/getAllEmployee/")]
+        List<Employee> getAllEmployee();
+
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "/InsertAllEmployee/")]
+        bool InsertAllEmployee(Employee Emp);
+        //[OperationContract]
+        //[WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json, UriTemplate = "/AddNumber/")]
+       [OperationContract]
+        [WebInvoke(Method="POST",RequestFormat=WebMessageFormat.Json,ResponseFormat=WebMessageFormat.Json,UriTemplate="/SendEmailTo/")]
+        bool sendEmail(SendEmail sndEmail);
+        
+    }
+
+
+    [DataContract]
+    public class Employee
+    {
+        [DataMember]
+        public int EmpId{get; set;}
+        [DataMember]
+        public string EmpName{get; set;}
+        [DataMember]
+        public string EmpJob{get; set;}
+        [DataMember]
+        public int DeptId{get; set;}
+  
+    }
+    [DataContract]
+    public class SendEmail
+    {
+        [DataMember]
+        public string Fname { get; set; }
+        [DataMember]
+        public string Lname { get; set; }
+        [DataMember]
+        public string Email { get; set; }
+        [DataMember]
+        public string PhoneNumber { get; set; }
+        [DataMember]
+        public string Mesages { get; set; }
+
+
+    
+    
+    }
+
+
+    
+  
+}
+-----------------------------------------------------------------------------
+
+Implementation
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.ServiceModel;
+using System.ServiceModel.Web;
+using System.Text;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Net.Mail;
+using System.Net;
+using System.Web;
+
+
+namespace WcfTest
+{
+    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in code, svc and config file together.
+    public class Service1 : IService1
+    {
+        
+      
+
+        
+        public List<Employee> getAllEmployee()
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConStr"].ConnectionString);
+                
+            SqlDataAdapter da = new SqlDataAdapter("Select * from Employee",con);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            List<Employee> emp = new List<Employee>();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                Employee empdata = new Employee();
+                empdata.EmpId = Convert.ToInt32(dr[0].ToString());
+                empdata.EmpName = dr[1].ToString();
+                empdata.EmpJob = dr[2].ToString();
+                empdata.DeptId = Convert.ToInt32(dr[3].ToString());
+                emp.Add(empdata);            
+            
+            }
+            return emp;
+
+
+
+
+
+
+
+            
+            
+        }
+
+
+
+        public bool InsertAllEmployee(Employee emp)
+        {
+            SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConStr"].ConnectionString);
+            SqlCommand cmd = new SqlCommand("INSERT INTO Employee Values(@Empid,@EmpName,@EmpJob,@DeptId)", con);
+            if (con.State != ConnectionState.Open)
+            {
+                con.Open();
+            
+            }
+           
+
+            cmd.Parameters.AddWithValue("@Empid", emp.DeptId);
+            cmd.Parameters.AddWithValue("@EmpName", emp.EmpName);
+            cmd.Parameters.AddWithValue("@EmpJob", emp.EmpJob);
+            cmd.Parameters.AddWithValue("@DeptId", emp.DeptId);
+
+            if (cmd.ExecuteNonQuery() > 0)
+            {
+
+                return true;
+            
+            }
+            else
+            {
+                return false;
+            
+            }
+        }
+        public bool sendEmail(SendEmail sndEmail)
+        {
+
+            HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Origin", "*");
+            HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Methods","POST, GET, OPTIONS");
+            HttpContext.Current.Response.AppendHeader("Access-Control-Max-Age","1000");
+            HttpContext.Current.Response.AppendHeader("Access-Control-Allow-Headers", "Content-Type");
+            SmtpClient client = new SmtpClient();
+            client.Port = int.Parse(ConfigurationManager.AppSettings["portNo"].ToString());
+            client.Host = ConfigurationManager.AppSettings["SmtpServer"].ToString();
+            client.EnableSsl = true;
+            MailMessage msg = new MailMessage();
+            msg.Body = "First Name:" + sndEmail.Fname + "lastName:" + sndEmail.Lname + "<br />";
+            msg.Subject = "Microstrategy-Training";
+            msg.To.Add(new MailAddress(ConfigurationManager.AppSettings["Email"].ToString()));
+            msg.From = new MailAddress(ConfigurationManager.AppSettings["Email"]);
+            msg.IsBodyHtml = true;
+            client.Credentials = new NetworkCredential(ConfigurationManager.AppSettings["Email"].ToString(), ConfigurationManager.AppSettings["Password"].ToString());
+           
+            client.Send(msg);
+           
+            return true;
+            
+           
+            
+        
+        
+        
+        
+        
+        
+        }
+
+    }
+}
+
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SendEmail.aspx.cs" Inherits="WebApplication1.SendEmail" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <script src="Scripts/jquery-1.4.1.js" type="text/javascript"></script>
+     <script type="text/javascript" >
+         $(document).ready(function () {
+
+             $("#btnOk").click(function () {
+                 var Fname = $("#txtFname").val();
+                 var Lname = $("#txtLname").val();
+                 var Email = $("#txtEmail").val();
+                 var PhpneNumber = $("#txtPhoneNo").val();
+                 var Message = $("#txtMessage").val();
+                 var values = "{\"Fname\":\"" + Fname + "\"," +
+                                      "\"Lname\":\"" + Lname + "\"," +
+                                       "\"Email\":\"" + Email + "\"," +
+                                        "\"PhoneNumber\":\"" + PhpneNumber + "\"," +
+                                         "\"Mesages\":\"" + Message + "\"}";
+
+                 console.log(values);
+                 $.ajax({
+                     type: 'POST',
+                     url: 'http://localhost:53246/Service1.svc/SendEmailTo',
+                     dataType: 'jsonp',
+                     crossDomain: true,
+                     contentType: 'application/json; charset=utf-8',
+                     data: values,
+                     success: function (response) {
+                         $('#lblData').html(JSON.stringify(response));
+                     },
+                     error: function (error) {
+                         console.log(error);
+                     }
+                 });
+
+             });
+         });
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        First name:<input type="text" id="txtFname" /><br />
+        Last Name:<input type="text" id="txtLname" /><br />
+        Email: <input type="text" id="txtEmail" /><br />
+        Phone Number<input type="text" id="txtPhoneNo" /><br />
+        Message<input type="text" id="txtMessage" /><br />
+        <input type="button" id="btnOk" value="Submit" /><br />
+        <label  id="lblData" ></label>
+    </div>
+    </form>
+</body>
+</html>
+
+
+-----------------------------------------------------------------------------
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="WebApplication1.Default" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <script src="Scripts/jquery-1.4.1.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#btnCallService').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://localhost:53246/Service1.svc/getAllEmployee',
+                    dataType: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (response) {
+                        $('#lblData').html(JSON.stringify(response));
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    
+    </script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <div>
+        <asp:GridView ID="grdDataOne" runat="server"></asp:GridView>
+        <input type="button" id="btnCallService" value="GetEmployeeDetail" />
+        <label id="lblData"></label>
+       
+    </div>
+    </form>
+</body>
+</html>
+
+
+
+------------------------------------------------------------------------------------
+
+
+<?xml version="1.0"?>
+<configuration>
+
+  <appSettings>
+    <add key="Email" value="info@netpeach.com" />
+    <add key="Password" value="NPadmin36$" />
+    <add key="SmtpServer" value="smtp.office365.com" />
+    <add key="portNo" value="587" />
+  </appSettings>
+  
+  <system.web>
+    <compilation debug="true" targetFramework="4.0" />
+  </system.web>
+  <connectionStrings>
+    <add name="ConStr" connectionString="Data Source=NETPEACH106\SQLEXPRESS; Initial Catalog=Employee; User Id=sa; Password=npadmin27!" />
+  </connectionStrings>
+  <system.serviceModel>
+    <behaviors>
+      <serviceBehaviors>
+        
+        <behavior>
+
+          <serviceMetadata httpGetEnabled="true"/>
+
+          <serviceDebug includeExceptionDetailInFaults="false"/>
+        </behavior>
+      </serviceBehaviors>
+      <endpointBehaviors>
+        <behavior>
+          <webHttp helpEnabled="True" />
+        </behavior>
+      </endpointBehaviors>
+    </behaviors>
+    <protocolMapping>
+      <add binding="webHttpBinding" scheme="http" />
+    </protocolMapping>
+    <serviceHostingEnvironment multipleSiteBindingsEnabled="true" />
+  </system.serviceModel>
+ <system.webServer>
+    <modules runAllManagedModulesForAllRequests="true"/>
+  
+     <httpProtocol>
+       <customHeaders>
+         <add name="Access-Control-Allow-Origin" value="*" />
+       </customHeaders>
+     </httpProtocol>
+   </system.webServer>
+
+  
+</configuration>
+
+------------------------------------------------------------------
+
+Access-Control-Allow-Headers:Content-Type
+Access-Control-Allow-Origin:*
+X-Powered-By:ASP.NET
+
+
+
