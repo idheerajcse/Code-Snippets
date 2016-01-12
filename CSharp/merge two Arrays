@@ -1,0 +1,20 @@
+private static int[] Merge(int[] array1, int[] array2)
+{
+    var mergedArray = new int[array1.Length + array2.Length];
+    int i = 0, j = 0, k = 0;
+    while(k < mergedArray.Length)
+    {
+        if (j == array2.Length || ((i < array1.Length) && (array[i] < array2[j])))
+        {
+            mergedArray[k] = array1[i];
+            i++;
+        }
+        else
+        {
+            mergedArray[k] = array2[j];
+            j++;
+        }
+        k++;
+    }
+    return mergedArray;
+}
