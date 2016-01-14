@@ -1,0 +1,39 @@
+AutoComplete In Grid 
+    <asp:TextBox ID="txtCode" Width="400px" runat="server" TabIndex="1" AutoPostBack="True"
+                                                OnTextChanged="txtCode_TextChanged"></asp:TextBox>
+                                            <cc1:AutoCompleteExtender ID="txtCode_AutoCompleteExtender" runat="server" DelimiterCharacters=""
+                                                Enabled="True" MinimumPrefixLength="0" ServiceMethod="ProductCodeAutoComplete"
+                                                TargetControlID="txtCode" CompletionListCssClass="AutoCompleteExtenderClass"
+                                                EnableCaching="true" EnableViewState="true" CompletionInterval="500" UseContextKey="True">
+                                            </cc1:AutoCompleteExtender>
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            Service in c# code
+                                            
+                                            
+                                             [System.Web.Services.WebMethod]
+        public static string[] ProductCodeAutoComplete(string prefixText)
+        {
+            DataTable dsCode = GetBALInventory.Get_code_Details(prefixText);
+            string[] items;
+            if (dsCode.Rows.Count <= 0)
+            {
+                return null;
+            }
+            else
+            {
+                items = new string[dsCode.Rows.Count];
+                int i = 0;
+                foreach (DataRow rdr in dsCode.Rows)
+                {
+                    items.SetValue(rdr["codenew"].ToString(), i);
+                    i++;
+                }
+                return items;
+            }
+        }
