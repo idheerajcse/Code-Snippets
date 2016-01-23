@@ -1,0 +1,4 @@
+Date Format in Grid
+<asp:Label ID="lblid" runat="server" Text='<%# Eval("EntryDate","{0:dd MMM yyyy}") %>' ></asp:Label>
+OP
+12 Oct 2072
