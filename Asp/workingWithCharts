@@ -1,0 +1,141 @@
+HyperLink: http://www.jqueryscript.net/chart-graph/Responsive-Animated-Bar-Chart-with-jQuery-Horizontal-Chart.html
+
+
+
+Horizontal Chart is a super simple jQuery plugin used to create a responsive & animated bar chart. The plugin will cycle through all the numbers of graph length defined in the data-number attribute and set highest number and use that as 100%. This will always make sure the graph is a decent size and all numbers are relative to each other.
+
+How to use it:
+
+1. Include jQuery Javascript library and the jQuery horizontal chart plugin in the web page.
+
+1
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+2
+<script src="src/js/horizBarChart.js"></script>
+2. Create a Html list for the horizontal bar chart and set the graph length using data-number attribute for each bar.
+
+01
+<ul class="chart">
+02
+  <li class="title" title="My Bar Chart"></li>
+03
+  <li class="current" title="Label 1"><span class="bar" data-number="38000"></span><span class="number">38,000</span></li>
+04
+  <li class="past" title="Label 2"><span class="bar" data-number="28500"></span><span class="number">28,500</span></li>
+05
+  <li class="past" title="Label 3"><span class="bar" data-number="18500"></span><span class="number">18,500</span></li>
+06
+  <li class="past" title="Label 4"><span class="bar" data-number="8000"></span><span class="number">8,000</span></li>
+07
+  <li class="past" title="Label 5"><span class="bar" data-number="14000"></span><span class="number">14,000</span></li>
+08
+  <li class="past" title="Label 6"><span class="bar" data-number="24000"></span><span class="number">24,000</span></li>
+09
+  <li class="past" title="Label 7"><span class="bar" data-number="34000"></span><span class="number">34,000</span></li>
+10
+  <li class="past" title="Label 8"><span class="bar" data-number="12000"></span><span class="number">12,000</span></li>
+11
+  <li class="past" title="Label 9"><span class="bar" data-number="14000"></span><span class="number">14,000</span></li>
+12
+</ul>
+3. Initialize the plugin with default settings.
+
+1
+$(document).ready(function(){
+2
+$('.chart').horizBarChart({
+3
+  selector: '.bar',
+4
+  speed: 3000
+5
+});
+6
+});
+4. Style the bar chart whatever you like.
+
+view source
+01
+.chart-horiz .chart { width: 90% }
+02
+ 
+03
+.chart-horiz .chart li {
+04
+  display: block;
+05
+  height: 23px;
+06
+  margin-top: 3px;
+07
+  position: relative
+08
+}
+09
+ 
+10
+.chart-horiz .chart li:before {
+11
+  color: #fff;
+12
+  content: attr(title);
+13
+  left: 5px;
+14
+  position: absolute
+15
+}
+16
+ 
+17
+.chart-horiz .chart li.title:before {
+18
+  color: black;
+19
+  font-weight: bold;
+20
+  left: 0
+21
+}
+22
+ 
+23
+.chart-horiz .chart li:first-child { margin-top: 0 }
+24
+ 
+25
+.chart-horiz .chart li .bar {
+26
+  background: #27ae60;
+27
+  height: 100%;
+28
+  min-width: 164px
+29
+}
+30
+ 
+31
+.chart-horiz .chart li .number {
+32
+  color: #27ae60;
+33
+  font-size: 18px;
+34
+  font-weight: bold;
+35
+  padding-left: 5px;
+36
+  position: absolute;
+37
+  top: -3px
+38
+}
+39
+ 
+40
+.chart-horiz .chart li.past .bar { background: #2ecc71 }
+41
+ 
+42
+.chart-horiz .chart li.past .number { color: #2ecc71 }
