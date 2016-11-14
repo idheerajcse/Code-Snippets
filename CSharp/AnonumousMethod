@@ -1,0 +1,234 @@
+Skip to content
+C# Station
+Home
+Tutorial
+ADO.NET Tutorial
+Lesson 01: Introduction to ADO.NET
+Lesson 02: The SqlConnection Object
+Lesson 03: The SqlCommand Object
+Lesson 04: Reading Data with the SqlDataReader
+Lesson 05: Working with Disconnected Data – The DataSet and SqlDataAdapter
+Lesson 06: Adding Parameters to Commands
+Lesson 07: Using Stored Procedures
+C# Tutorial
+Lesson 1: Getting Started with C#
+Lesson 2: Operators, Types, and Variables
+Lesson 3: Control Statements – Selection
+Lesson 4: Control Statements – Loops
+Lesson 5: Methods
+Lesson 6: Namespaces
+Lesson 7: Introduction to Classes
+Lesson 8: Class Inheritance
+Lesson 9: Polymorphism
+Lesson 10: Properties
+Lesson 11: Indexers
+Lesson 12: Structs
+Lesson 13: Interfaces
+Lesson 14: Introduction to Delegates and Events
+Lesson 15: Introduction to Exception Handling
+Lesson 16: Using Attributes
+Lesson 17: Enums
+Lesson 18: Overloading Operators
+Lesson 19: Encapsulation
+Lesson 20: Introduction to Generic Collections
+Lesson 21: Anonymous Methods
+Lesson 22: Topics on C# Type
+Lesson 23: Working with Nullable Types
+LINQ Tutorial
+Lesson 01: Introduction to LINQ
+Lesson 02: Forming Projections
+Articles
+Links
+ASP.NET Sites
+C# Sites
+.NET Sites
+Job Sites
+Object Oriented Sites
+Other Sites
+Tools
+VB.NET Sites
+Web Services Sites
+About
+Contact
+Link to C# Station
+Submit a site
+Support C# Station
+Terms of Service
+
+Lesson 21: Anonymous Methods
+
+
+ 
+In Lesson 14: Introduction to Delegates, you learned about delegates and how they enable you to connect handlers to events. For C# v2.0, there is a new language feature, called anonymous methods, that are similar to delegates, but require less code. While you learn about anonymous methods, we’ll cover the following objectives:
+
+Understand the benefits of anonymous methods
+Learn how to implement an anonymous method
+Implement anonymous methods that use delegate parameters
+How Do Anonymous Methods Benefit Me?
+
+An anonymous method is a method without a name – which is why it is called anonymous. You don’t declare anonymous methods like regular methods. Instead they get hooked up directly to events. You’ll see a code example shortly.
+
+To see the benefit of anonymous methods, you need to look at how they improve your development experience over using delegates. Think about all of the moving pieces there are with using delegates: you declare the delegate, write a method with a signature defined by the delegate interface, declare the event based on that delegate, and then write code to hook the handler method up to the delegate. With all this work to do, no wonder programmers, who are new to C# delegates, have to do a double-take to understand how they work.
+
+Because you can hook an anonymous method up to an event directly, a couple of the steps of working with delegates can be removed. The next section shows you how this works.
+
+Implementing an Anonymous Method
+
+An anonymous method uses the keyword, delegate, instead of a method name. This is followed by the body of the method. Typical usage of an anonymous method is to assign it to an event. Listing 21-1 shows how this works.
+
+Listing 21-1. Implementing an Anonymous Method
+
+using System.Windows.Forms;
+
+public partial class Form1 : Form
+{
+    public Form1()
+    {
+        Button btnHello = new Button();
+        btnHello.Text = "Hello";
+
+        btnHello.Click +=
+            delegate
+            {
+                MessageBox.Show("Hello");
+            };
+
+        Controls.Add(btnHello);
+    }
+}
+The code in Listing 21-1 is a Windows Forms application. It instantiates a Button control and sets its Text to “Hello”. Notice the combine,+=, syntax being used to hook up the anonymous method. You can tell that it is an anonymous method because it uses the delegatekeyword, followed by the method body in curly braces.
+
+
+Essentially, you have defined a method inside of a method, but the body of the anonymous method doesn’t execute with the rest of the code. Because you hook it up to the event, the anonymous method doesn’t execute until the Click event is raised. When you run the program and click the Hello button, you’ll see a message box that say’s “Hello” – courtesy of the anonymous method.
+
+Using Controls.Add, adds the new button control to the window. Otherwise the window wouldn’t know anything about the Button and you wouldn’t see the button when the program runs.
+
+Using Delegate Parameters with Anonymous Methods
+
+Many event handlers need to use the parameters of the delegate they are based on. The previous example didn’t use those parameters, so it was more convenient to not declare them, which C# allows. Listing 21-2 shows you how to use parameters if you need to.
+
+Listing 21-2. Using Parameters with Anonymous Methods
+
+using System;
+using System.Windows.Forms;
+
+public partial class Form1 : Form
+{
+    public Form1()
+    {
+        Button btnHello = new Button();
+        btnHello.Text = "Hello";
+
+        btnHello.Click +=
+            delegate
+            {
+                MessageBox.Show("Hello");
+            };
+
+        Button btnGoodBye = new Button(); 
+        btnGoodBye.Text = "Goodbye";
+        btnGoodBye.Left = btnHello.Width + 5; 
+        btnGoodBye.Click += 
+            delegate(object sender, EventArgs e) 
+            { 
+                string message = (sender as Button).Text;
+                MessageBox.Show(message); 
+            };
+
+        Controls.Add(btnHello);
+        Controls.Add(btnGoodBye);
+    }
+}
+The bold parts of Listing 21-2 show another Button control added to the code from Listing 21-1. Besides changing the text, btnGoodBye is moved to the right of btnHello by setting it’s Left property to 5 pixels beyond the right edge of btnHello. If we didn’t do this, btnGoodByewould cover btnHello because both of their Top and Left properties would default to 0.
+
+
+ 
+Beyond implementation details, the real code for you to pay attention to is the implementation of the anonymous method. Notice that thedelegate keyword now has a parameter list. this parameter list must match the delegate type of the event that the anonymous method is being hooked up to. The delegate type of the Click event is EventHandler, which has the following signature:
+
+public delegate void EventHandler(object sender, EventArgs e);
+Notice the EventHandler parameters. Now, here’s how the Button control’s Click event is defined:
+
+public event EventHandler Click;
+Notice that the delegate type of the Click event is EventHandler. This is why the anonymous method, assigned to btnGoodBye.Click in Listing 21-2, must have the same parameters as the EventHandler delegate.
+
+Summary
+
+Anonymous methods are a simplified way for you to assign handlers to events. They take less effort than delegates and are closer to the event they are associated with. You have the choice of either declaring the anonymous method with no parameters or you can declare the parameters if you need them.
+
+I invite you to return for Lesson 22: Topics on C# Type.
+
+Follow Joe Mayo on Twitter.
+
+Feedback
+
+MORE FROM AROUND THE WEB
+by Mgid
+
+New Way Of Earning Online in India
+onlinedatingschool.com
+
+Apply This Daily And Get Whiter Skin In 14 Days
+Radyance Skin Brightening Complex 
+
+आलसियों के लिए वजन घटाना! 4 हफ्तों में 20 किलो तक कम करें!
+
+Remember When Angelina Jolie Lip-Locked With Her Brother?
+radaronline.com
+
+18 Crazy Things Kris Jenner Actually Said
+radaronline.com
+
+Hollywood A-Listers Who Hide A Small Disadvantage In Their ...
+radaronline.com
+
+The Greatest Actors Of All Time, Who've Never Won An Oscar
+radaronline.com
+
+Who’s Their Daddy? 22 Celeb Paternity Scandals
+radaronline.com
+
+Why Do The Kardashians Go Hard On Cosmetic Surgery?
+radaronline.com
+Post navigation
+PREVIOUS
+Previous post:Lesson 20: Introduction to Generic Collections
+NEXT
+Next post:Lesson 22: Topics on C# Type
+
+X
+You May Like 
+Demokrazy Silver Hoode...
+Gorgeous Police Women From Around The World
+ 
+
+
+
+Follow our 23 C# Tutorials in order
+
+
+
+RECENT POSTS
+
+Using C#’s Replace Method
+Using the char Type
+5 Ways to Optimize your C# Code
+
+YOU MAY LIKE
+by Mgid
+
+New Way Of Earning Online in India
+onlinedatingschool.com
+
+Apply This Daily And Get Whiter Skin In 14 Days
+Radyance Skin Brightening Complex 
+
+Remember When Angelina Jolie Lip-Locked With Her Brother?
+radaronline.com
+
+Hollywood Cosmetic Surgeries That Will Blow Your Mind
+radaronline.com
+
+ 
+
+© 2016 CSharp-Station.com | Privacy Policy | Contact Us
+
