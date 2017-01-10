@@ -1,0 +1,66 @@
+
+gopalanmani
+Contributor
+5459 Points
+1301 Posts
+Re: Relationship between Web services and SOAP
+Nov 28, 2011 07:33 AM|LINK
+
+What is SOAP?
+
+SOAP is a simple XML-based protocol to let applications exchange information over HTTP
+
+    SOAP stands for Simple Object Access Protocol
+    SOAP is a communication protocol
+    SOAP is for communication between applications
+    SOAP is a format for sending messages
+    SOAP communicates via Internet
+    SOAP is platform independent
+    SOAP is language independent
+    SOAP is based on XML
+    SOAP is simple and extensible
+    SOAP allows you to get around firewalls
+    SOAP is a W3C recommendation
+
+SOAP is important for application development to allow Internet communication between programs.
+
+Why SOAP?
+
+It is important for application development to allow Internet communication between programs.
+
+Today's applications communicate using Remote Procedure Calls (RPC) between objects like DCOM and CORBA, but HTTP was not designed for this. RPC represents a compatibility and security problem; firewalls and proxy servers will normally block this kind of traffic.
+
+A better way to communicate between applications is over HTTP, because HTTP is supported by all Internet browsers and servers. SOAP was created to accomplish this.
+
+SOAP provides a way to communicate between applications running on different operating systems, with different technologies and programming languages.
+
+
+HTTP with SOAP
+
+HTTP is a communications protocol that transports messages over a network.  SOAP is a protocol to exchange 
+
+XML-based messages that can use HTTP to transport those messages.  In fact HTTP is the most common transport for 
+
+SOAP messages.
+
+
+
+Web Service with SOAP
+
+A Web Service is programmable application logic accessible via standard Web protocols. One of these Web 
+
+protocols is the Simple Object Access Protocol (SOAP). SOAP is a W3C submitted that uses standards based technologies (XML for data description and HTTP for transport) to encode and transmit 
+
+application data.
+
+Consumers of a Web Service do not need to know anything about the platform, object model, or programming 
+
+language used to implement the service; they only need to understand how to send and receive SOAP messages (HTTP 
+
+and XML). 
+
+
+
+
+check this url about "Why Is SOAP Needed? in webservice"
+http://www.informit.com/articles/article.aspx?p=131103
