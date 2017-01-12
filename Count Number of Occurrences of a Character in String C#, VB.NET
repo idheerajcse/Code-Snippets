@@ -1,0 +1,103 @@
+Count Number of Occurrences of a Character in String C#, VB.NET
+By: Suresh Dasari Jul 25, 2016
+Categories: Asp.net , c# , C#.Net , VB.NET
+ 
+ 
+Introduction: 
+
+Here I will explain how to count number of occurrences of character in string in asp.net using c#, vb.net with example or asp.net get number of occurrences of a character in a string or find number of characters occurrences in string in asp.net using c#, vb.net with example. We have different ways to get number of occurrences of character in string like loop through the string and get number of character occurrences or use LINQ queries to get character occurrences in string in c#, vb.net.
+
+Description: 
+   
+In previous articles I explained sql server query to remove first and last characters in string, jQuery remove first and last character of string example, sql server substring function to get particular part of string, sql server get string before and after delimiter character, jQuery remove all whitespaces in string with regex, jQuery show large image preview on hover in asp.net and many articles relating to asp.net, c#, vb.net and jQuery. Now I will explain how to count number of character occurrences in string in asp.net using c#, vb.net with example.
+
+To count number of occurrences of character in string in asp.net using c#, vb.net first write the code following code in your aspx page
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+<title>Count Number of Occurrences of Character in string C#, VB.NET</title>
+<style type="text/css">
+.txtclass
+{
+width:250px;
+
+}
+</style>
+</head>
+<body>
+<form id="form1" runat="server">
+<div>
+<table>
+<tr>
+<td>Enter Name:</td>
+<td><asp:TextBox ID="txtName" runat="server" Text="welcome to aspdotnet-suresh.com" CssClass="txtclass" /></td>
+</tr>
+<tr>
+<td></td>
+<td><asp:Button ID="btnCount" runat="server" Text="Count"
+onclick="btnCount_Click" /></td>
+</tr>
+</table>
+<asp:Label ID="lblResult" runat="server"/>
+</div>
+</form>
+</body>
+</html>
+
+ 
+
+
+Now open code behind file and write following code
+
+C# Code
+
+
+protected void btnCount_Click(object sender, EventArgs e)
+{
+string str = txtName.Text;
+string result = string.Empty;
+while(str.Length>0)
+{
+int count = 0;
+for (int j = 0; j < str.Length; j++)
+{
+if (str[0] == str[j])
+{
+count++;
+}
+}
+result += str[0] + " : " + count + "<br>";
+str = str.Replace(str[0].ToString(), string.Empty);
+}
+lblResult.Text = result;
+}
+
+VB.NET Code
+
+
+Partial Class VBCode
+Inherits System.Web.UI.Page
+Protected Sub Page_Load(ByVal sender As Object, ByVal e As EventArgs)
+
+End Sub
+Protected Sub btnCount_Click(ByVal sender As Object, ByVal e As EventArgs)
+Dim str As String = txtName.Text
+Dim result As String = String.Empty
+While str.Length > 0
+Dim count As Integer = 0
+For j As Integer = 0 To str.Length - 1
+If str(0) = str(j) Then
+count += 1
+End If
+Next
+result += str(0) + " : " + Convert.ToString(count) + "<br>"
+str = str.Replace(str(0).ToString(), String.Empty)
+End While
+lblResult.Text = result
+End Sub
+End Class
+
+Demo
+
+Following is the demo to count number character occurrences in string.
