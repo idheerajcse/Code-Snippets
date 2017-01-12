@@ -1,0 +1,87 @@
+Connection Pooling in Asp.Net using C# with Example
+By: Suresh Dasari Jul 29, 2016
+Categories: ADO.NET , Asp.net , c# , Interview Questions , VB.NET
+ 
+ 
+Introduction: 
+
+Here I will explain what is connection pooling in asp.net using c#, vb.net with example or how to use connection pooling in ado.net with example or asp.net understand connection pooling with example in c#, vb.net with example. Connection pooling in asp.net is the place where it maintains set of active connections to database based on configuration and it reduce the cost of opening and closing connection to database.
+
+Description: 
+   
+In previous articles I explained consume web service in asp.net web applications, count number of occurrences of characters in string, insert data from gridview to database in asp.net, delete multiple rows in asp.net gridview based on checkbox selection, display sum of columns total in asp.net gridview footer , jQuery show large image preview on hover in asp.net and many articles relating to asp.net, c#, vb.net and jQuery. Now I will explain what is connection pooling in asp.net and how to it in c#, vb.net with example.
+
+What is Connection Pooling in Asp.NET?
+
+Generally connecting to database server is a time consuming process because whenever we request to connect database first it will establish network handshaking with server and then connection string will be parsed and it will check whether given connection credentials correct or not to connect server and so on.
+
+In our applications mostly we use one or two connection configurations and repeatedly same connection configuration will be opened and closed, automatically huge time will be consumed to open and close same database connection.
+
+To reduce the cost of opening and closing the same connection repeatedly, ADO.NET uses an optimization technique called connection pooling.
+
+Connection pooling is the place where it will maintain all the active database connections in one place to reduce the cost of opening and closing database connections. Whenever user send new request to Open a database connection the pooler will looks for an available connection in the pool in case if a pooled connection available then it will return pooled connection instead of opening new connection otherwise the new connection pool is created with the connection string in the connection for next time reuse.
+
+Once we finished operations on database we need to Close the connection then that connection will be returned to the pool and its ready to be reused on the next Open call.
+
+Create Connection Pooling in Asp.Net
+
+To enable this connection pooling in asp.net we don’t need to do anything by default connection pooling is enabled in ADO.NET. Unless we manually disable the connection pooling, the pooler will optimize the connections when they are opened and closed in our application.
+
+First time if we are opening a new connection, a distinct new connection pool is created based on the matching connection string in the connection. While creating connection pool it will check is there any connection pool created with that connection string or not by using keywords supplied in connection. In case if we send connection strings keywords in different order then it will treat it as separate connection string and same connection will be pooled separately.
+
+C# Code
+
+
+using (SqlConnection con = new SqlConnection("Data Source=Suresh;Integrated security=SSPI;Initial Catalog=SampleDB"))
+{
+con.Open();
+// Connection Pool A will be created.
+}
+using (SqlConnection con = new SqlConnection("Data Source=Suresh;Integrated security=SSPI;Initial Catalog=aspdotnetDB"))
+{
+con.Open();
+// Separate connection pool B will create because connection string different.
+}
+using (SqlConnection con = new SqlConnection("Data Source=Suresh;Initial Catalog=aspdotnetdb;Pooling=false;"))
+{
+con.Open();
+// No connection pool will create because we defined Pooling = false.
+}
+using (SqlConnection con = new SqlConnection("Data Source=Suresh;Integrated security=SSPI;Initial Catalog=SampleDB"))
+{
+con.Open();
+// This connection string matches with Connection Pool A.
+}
+
+ 
+
+
+VB.NET Code
+
+
+Using con As New SqlConnection("Data Source=Suresh;Integrated security=SSPI;Initial Catalog=SampleDB")
+' Connection Pool A will be created.
+con.Open()
+End Using
+Using con As New SqlConnection("Data Source=Suresh;Integrated security=SSPI;Initial Catalog=aspdotnetDB")
+' Separate connection pool B will create because connection string different.
+con.Open()
+End Using
+Using con As New SqlConnection("Data Source=Suresh;Initial Catalog=aspdotnetdb;Pooling=false;")
+' No connection pool will create because we defined Pooling = false.
+con.Open()
+End Using
+Using con As New SqlConnection("Data Source=Suresh;Integrated security=SSPI;Initial Catalog=SampleDB")
+' This connection string matches with Connection Pool A.
+con.Open()
+End Using
+
+The connections pooler will remove connections from the pool after it has been idle for approximately 4-8 minutes.
+
+Following are the connection pooler properties which we can add to connection string based on our requirements.
+
+Max Pool Size: We can define maximum number of connections can be created in the pool. By default its 100 and we can add property like Max Pool Size=100.
+
+Min Pool Size: We can define minimum number of connections maintained in the pool. The default is 0. We can add property like Min Pool Size=0.
+
+Pooling: It will allow us to set condition to add connection string to pool or not. By default its true. In case we don’t want to add it into pool then we need to define property like Pooling=false.
